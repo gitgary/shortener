@@ -13,7 +13,7 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
   attr_accessor :custom_key
   
   # since rails 3 doesn't support strong parameters, need to white-list these params
-  if Rails::VERSION::MAJOR > 3
+  if Rails::VERSION::MAJOR <= 3
      attr_accessible :unique_key, :expires_at
   end
 
