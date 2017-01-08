@@ -10,11 +10,11 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
   # exclude records in which expiration time is set and expiration time is greater than current time
   scope :unexpired, -> { where(arel_table[:expires_at].eq(nil).or(arel_table[:expires_at].gt(::Time.current.to_s(:db)))) }
 
+  attr_accessor :custom_key
+  
+  # since rails 3 doesn't support strong parameters, need to white-list these params
   if Rails::VERSION::MAJOR > 3
-     attr_accessor :custom_key
-  else
-    # since rails 3 doesn't support strong parameters, need to white-list these params
-     attr_accessible :unique_key, :expires_at, :custom_key
+     attr_accessible :unique_key, :expires_at
   end
 
   # ensure the url starts with it protocol and is normalized
