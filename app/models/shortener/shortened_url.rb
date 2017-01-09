@@ -57,14 +57,15 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
         unique_key: custom_key,
         expires_at: expires_at
       )
-    else
-      scope.where(url: clean_url(destination_url), category: category).send(
-        creation_method,
-        unique_key: custom_key,
-        custom_key: custom_key,
-        expires_at: expires_at
+      else
+        scope.where(url: clean_url(destination_url), category: category).send(
+          creation_method,
+          unique_key: custom_key,
+          custom_key: custom_key,
+          expires_at: expires_at
       )
     end
+  end
 
     result
   end
