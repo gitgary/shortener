@@ -50,6 +50,14 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
       scope = owner ? owner.shortened_urls : self
       creation_method = fresh ? 'create' : 'first_or_create'
 
+      # attributes created by attr_accessor don't pass rails 3 whitelist protection
+      if Rails::VERSION::MAJOR <= 3
+      scope.where(url: clean_url(destination_url), category: category).send(
+        creation_method,
+        unique_key: custom_key,
+        expires_at: expires_at
+      )
+    else
       scope.where(url: clean_url(destination_url), category: category).send(
         creation_method,
         unique_key: custom_key,
